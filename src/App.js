@@ -1,24 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import React,{useState} from 'react';
+import Data from './constants/DataComponent'
+import HeaderComponent from './components/HeaderComponent';
+import DeptDetails from './components/DeptDetails';
+import EmployeeDetails from './components/EmployeeDetails';
+
 
 function App() {
+
+  const [selectDept, setSelectDept] = useState(0)
+
+  const getDeptDetails = (deptId) => {
+    setSelectDept(deptId)
+  }
+
+  const dept = Data.filter((dept) => dept.deptId === selectDept);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <HeaderComponent />
+        {
+          (dept.length > 0 ? <EmployeeDetails employeeDetails={dept[0]} /> : '')
+        }
+        <DeptDetails data={Data} getDeptDetails={getDeptDetails}/>
+      </div>
   );
 }
 
